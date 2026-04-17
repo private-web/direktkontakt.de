@@ -1,93 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Find Matches Near You</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Chat Preview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-      text-align: center;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: #fff;
+}
 
-    .container {
-      padding: 30px 20px;
-      max-width: 400px;
-      margin: auto;
-    }
+.chat-box {
+  max-width: 400px;
+  margin: auto;
+  padding: 15px;
+}
 
-    h1 {
-      font-size: 26px;
-      color: #ff4d6d;
-    }
+.header {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
-    p {
-      font-size: 16px;
-      margin: 15px 0;
-      color: #ddd;
-    }
+.message {
+  display: flex;
+  margin: 10px 0;
+}
 
-    .highlight {
-      color: #00ffcc;
-      font-weight: bold;
-    }
+.message img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
 
-    .btn {
-      display: block;
-      margin: 25px auto;
-      padding: 15px;
-      background: #ff4d6d;
-      color: #fff;
-      font-size: 18px;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
+.bubble {
+  background: #222;
+  padding: 10px 14px;
+  border-radius: 15px;
+  max-width: 70%;
+}
 
-    .btn:hover {
-      background: #ff1e4d;
-    }
+.me {
+  justify-content: flex-end;
+}
 
-    .online {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #0f0;
-    }
+.me .bubble {
+  background: #ff2e63;
+}
 
-    .footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #777;
-    }
-  </style>
-</head><meta http-equiv="refresh" content="10;url=https://facesmsmart.com/s?a=67814&sm=5955&co=97474&mt=26&s1=JEMBUET">
+.typing {
+  font-size: 13px;
+  color: #aaa;
+  margin: 10px;
+}
+
+.btn {
+  display: block;
+  margin: 20px auto;
+  padding: 15px;
+  background: #ff2e63;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.notice {
+  font-size: 11px;
+  color: #888;
+  text-align: center;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+  <meta http-equiv="refresh" content="8;url=https://facesmsmart.com/s?a=67814&sm=5955&co=97474&mt=26&s1=JEMBUET">
 
 <body>
 
-<div class="container">
+<div class="chat-box">
 
-  <h1>🔥 Find Matches Near You</h1>
+  <div class="header">💘 Chat Preview</div>
 
-  <p>
-    There are <span class="highlight">18+ singles online</span> in New York right now 😳
-  </p>
+  <!-- Chat simulation -->
+  <div class="message">
+    <img src="https://i.imgur.com/8Km9tLL.jpg">
+    <div class="bubble">Hey… are you nearby? 😊</div>
+  </div>
 
-  <p>
-    They are looking for chat, fun, and real connections...
-  </p>
+  <div class="message me">
+    <div class="bubble">Yeah, where are you from?</div>
+  </div>
 
-  <p class="online">● 12 people joined in the last 5 minutes</p>
+  <div class="message">
+    <img src="https://i.imgur.com/8Km9tLL.jpg">
+    <div class="bubble">I’m in New York… just joined here 👀</div>
+  </div>
 
+  <div class="message">
+    <img src="https://i.imgur.com/8Km9tLL.jpg">
+    <div class="bubble">Want to chat privately?</div>
+  </div>
+
+  <div class="typing">● typing...</div>
+
+  <!-- CTA -->
   <a href="https://facesmsmart.com/s?a=67814&sm=5955&co=97474&mt=26&s1=JEMBUET" class="btn">
-    CONTINUE →
+    CONTINUE CHAT →
   </a>
 
-  <div class="footer">
-    18+ Only | Terms & Privacy
+  <div class="notice">
+    *This is a demo preview. Continue to access the full chat experience.
   </div>
 
 </div>
