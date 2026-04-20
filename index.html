@@ -3,178 +3,249 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Discover People Nearby</title>
+<title>Discovery Chat</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: #fff;
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
-.container {
-    max-width: 420px;
-    margin: auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+.chat{
+    width:100%;
+    max-width:400px;
+    height:620px;
+    background:#1e293b;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
 }
 
-.header {
-    padding: 15px;
-    text-align: center;
-    background: #1e293b;
-    font-weight: bold;
+.header{
+    background:#22c55e;
+    padding:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.sub {
-    font-size: 12px;
-    opacity: 0.7;
-    margin-top: 5px;
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
 }
 
-.progress {
-    height: 3px;
-    background: #22c55e;
-    width: 0%;
-    transition: width 2s;
+.name{font-weight:bold;color:#000;}
+.city{font-size:12px;color:#064e3b;}
+
+.progress{
+    height:5px;
+    background:#0f172a;
+}
+.bar{
+    height:100%;
+    width:0%;
+    background:#22c55e;
+    transition:0.3s;
 }
 
-.chat {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
+.messages{
+    flex:1;
+    padding:10px;
+    overflow-y:auto;
 }
 
-.msg {
-    margin: 10px 0;
-    padding: 10px 14px;
-    border-radius: 12px;
-    max-width: 75%;
+.msg{
+    max-width:75%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:10px;
+    font-size:14px;
 }
 
-.bot { background: #334155; }
-.user { background: #22c55e; margin-left:auto; }
-
-.input-area {
-    padding: 10px;
-    background: #1e293b;
-    display: flex;
+.left{background:#334155;}
+.right{
+    background:#22c55e;
+    color:#000;
+    align-self:flex-end;
 }
 
-input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 20px;
-    border: none;
+.typing{
+    font-size:12px;
+    color:#94a3b8;
+    display:none;
+    margin-left:10px;
 }
 
-button {
-    margin-left: 10px;
-    padding: 10px 15px;
-    border-radius: 20px;
-    border: none;
-    background: #22c55e;
-    color: #fff;
+.options{padding:10px;}
+.option{
+    background:#334155;
+    padding:10px;
+    margin:5px 0;
+    border-radius:10px;
+    text-align:center;
+    cursor:pointer;
 }
 
-.cta-box {
-    display: none;
-    padding: 20px;
-    text-align: center;
-    background: #111827;
+.cta{
+    display:none;
+    margin:10px;
+    padding:15px;
+    background:#22c55e;
+    text-align:center;
+    border-radius:10px;
+    text-decoration:none;
+    color:#000;
+    font-weight:bold;
+    animation:pulse 1.5s infinite;
 }
 
-.cta-box button {
-    width: 100%;
-    margin-top: 10px;
-    background: #3b82f6;
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.05);}
+    100%{transform:scale(1);}
 }
 
-.footer-note {
-    font-size: 11px;
-    opacity: 0.6;
-    margin-top: 10px;
+.notice{
+    font-size:11px;
+    text-align:center;
+    color:#64748b;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="chat">
 
 <div class="header">
-    Discover People Nearby
-    <div class="sub">Explore profiles & start conversations</div>
-</div>
-
-<div class="progress" id="progress"></div>
-
-<div class="chat" id="chat"></div>
-
-<div class="input-area">
-    <input id="msgInput" placeholder="Say hi...">
-    <button onclick="sendMsg()">Send</button>
-</div>
-
-<div class="cta-box" id="cta">
-    <h3>Start chatting</h3>
-    <p>Create a free account to continue.</p>
-    <button onclick="goOffer()">Continue</button>
-    <div class="footer-note">
-        *This is a demo interaction preview
+    <img id="avatar" class="avatar">
+    <div>
+        <div class="name" id="name"></div>
+        <div class="city" id="city"></div>
     </div>
 </div>
 
+<div class="progress"><div class="bar" id="bar"></div></div>
+
+<div class="messages" id="chat"></div>
+<div class="typing" id="typing">typing...</div>
+<div class="options" id="options"></div>
+
+<a href="https://city.ascendory.web.id/2026/04/09/sravia-hawaii-resorts-with-lava-landscapes-and-island-comfort/" class="cta" id="cta">Continue Now →</a>
+
+<div class="notice">Demo simulation</div>
+
 </div>
 
-<script>
-let chat = document.getElementById("chat");
+<audio id="sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
 
-function addMsg(text, type="bot"){
-    let div = document.createElement("div");
-    div.className = "msg " + type;
-    div.innerText = text;
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
+<script>
+// DATA
+const names=["Amara","Chioma","Zainab","Ada","Fatima","Blessing"];
+const cities=["Lagos","Abuja","Kano","Ibadan","Port Harcourt"];
+const avatars=[
+"https://i.pravatar.cc/150?img=5",
+"https://i.pravatar.cc/150?img=10",
+"https://i.pravatar.cc/150?img=15"
+];
+
+// RANDOM
+const n=names[Math.floor(Math.random()*names.length)];
+const c=cities[Math.floor(Math.random()*cities.length)];
+const a=avatars[Math.floor(Math.random()*avatars.length)];
+
+name.innerText=n;
+city.innerText=c+" • Active now";
+avatar.src=a;
+
+const chat=document.getElementById("chat");
+const typing=document.getElementById("typing");
+const sound=document.getElementById("sound");
+const bar=document.getElementById("bar");
+
+let step=0;
+
+function vib(){ if(navigator.vibrate) navigator.vibrate(50); }
+
+function msg(t,s){
+    let d=document.createElement("div");
+    d.className="msg "+s;
+    d.innerText=t;
+    chat.appendChild(d);
+    chat.scrollTop=chat.scrollHeight;
+    sound.play();
+    vib();
 }
 
-// progress animation
+function bot(t,next){
+    typing.style.display="block";
+    setTimeout(()=>{
+        typing.style.display="none";
+        msg(t,"left");
+        step++;
+        bar.style.width=(step/6*100)+"%";
+        if(next) next();
+    },1000+Math.random()*700);
+}
+
+function options(arr){
+    let box=document.getElementById("options");
+    box.innerHTML="";
+    arr.forEach(o=>{
+        let b=document.createElement("div");
+        b.className="option";
+        b.innerText=o.text;
+        b.onclick=()=>{
+            msg(o.text,"right");
+            box.innerHTML="";
+            setTimeout(o.next,700);
+        };
+        box.appendChild(b);
+    });
+}
+
+// FLOW
 setTimeout(()=>{
-    document.getElementById("progress").style.width="100%";
+    bot("Hey 🙂",()=>{
+        bot("Quick question...",()=>{
+            bot("Are you in Nigeria?",()=>{
+                options([
+                    {text:"Yes",next:step2},
+                    {text:"Not really",next:step2}
+                ]);
+            });
+        });
+    });
 },500);
 
-// neutral, non-misleading flow
-setTimeout(()=>addMsg("Welcome ðŸ‘‹"),1000);
-setTimeout(()=>addMsg("You can explore profiles and connect with people nearby."),2500);
-setTimeout(()=>addMsg("Try sending a message to get started ðŸ™‚"),4000);
-
-function sendMsg(){
-    let input = document.getElementById("msgInput");
-    if(input.value==="") return;
-
-    addMsg(input.value,"user");
-    input.value="";
-
-    setTimeout(()=>{
-        addMsg("Nice! You can continue after creating a free account.");
-    },1000);
-
-    setTimeout(()=>{
-        document.getElementById("cta").style.display="block";
-    },2000);
+function step2(){
+    bot("Alright 👍",()=>{
+        bot("Something is trending right now",()=>{
+            bot("Not many people have seen it yet",()=>{
+                options([
+                    {text:"What is it?",next:step3},
+                    {text:"Show me",next:step3}
+                ]);
+            });
+        });
+    });
 }
-    setTimeout(()=>{
-    addMsg("You have 2 new matches waiting ðŸ‘€");
-},1500);
 
-setTimeout(()=>{
-    document.getElementById("cta").style.display="block";
-},3000);
-
-function goOffer(){
-    window.location.href="https://city.ascendory.web.id/2026/04/09/sravia-hawaii-resorts-with-lava-landscapes-and-island-comfort/";
+function step3(){
+    bot("It’s based on your area",()=>{
+        bot("You might find it interesting",()=>{
+            bot("Check it before it refreshes",()=>{
+                document.getElementById("cta").style.display="block";
+            });
+        });
+    });
 }
 </script>
 
