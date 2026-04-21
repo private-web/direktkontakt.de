@@ -165,6 +165,59 @@ body {
 </head>
 
 <body>
+    <div class="live-counter">
+    <span id="counter">12</span> aktive Nutzer gerade
+</div>
+
+<style>
+.live-counter {
+    text-align: center;
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+#counter {
+    color: #4cd964;
+    font-weight: bold;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+</style>
+
+<script>
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+let current = randomNumber(8, 14);
+
+function updateCounter() {
+    let next = randomNumber(8, 18);
+
+    let interval = setInterval(() => {
+        if (current < next) {
+            current++;
+        } else if (current > next) {
+            current--;
+        } else {
+            clearInterval(interval);
+        }
+        document.getElementById("counter").innerText = current;
+    }, 80);
+}
+
+// update setiap beberapa detik
+setInterval(updateCounter, 3000);
+
+// initial
+document.getElementById("counter").innerText = current;
+</script>
 
 <!-- LOADER -->
 <div class="loader" id="loader">
@@ -202,7 +255,7 @@ body {
     <div class="card">
         <img src="https://i.pravatar.cc/100?img=12" class="avatar">
         <div class="info">
-            <div class="name">Mia, 25</div>
+            <div class="name">Jhon, 25</div>
             <div class="status">Sucht neue Kontakte</div>
             <div class="online">● Online jetzt</div>
         </div>
