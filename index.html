@@ -1,252 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Discovery Chat</title>
+<title>Bitte warten...</title>
 
 <style>
 body{
     margin:0;
     font-family:Arial, sans-serif;
     background:#0f172a;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+    color:#fff;
+    text-align:center;
 }
 
-.chat{
-    width:100%;
-    max-width:400px;
-    height:620px;
+.container{
+    max-width:420px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
     background:#1e293b;
-    border-radius:15px;
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
+    border-radius:16px;
+    padding:20px;
+    margin-top:40px;
 }
 
-.header{
+h1{
+    font-size:20px;
+}
+
+.city{
+    color:#22c55e;
+}
+
+.btn{
+    display:block;
     background:#22c55e;
-    padding:10px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.avatar{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-}
-
-.name{font-weight:bold;color:#000;}
-.city{font-size:12px;color:#064e3b;}
-
-.progress{
-    height:5px;
-    background:#0f172a;
-}
-.bar{
-    height:100%;
-    width:0%;
-    background:#22c55e;
-    transition:0.3s;
-}
-
-.messages{
-    flex:1;
-    padding:10px;
-    overflow-y:auto;
-}
-
-.msg{
-    max-width:75%;
-    padding:10px;
-    margin:8px 0;
-    border-radius:10px;
-    font-size:14px;
-}
-
-.left{background:#334155;}
-.right{
-    background:#22c55e;
-    color:#000;
-    align-self:flex-end;
-}
-
-.typing{
-    font-size:12px;
-    color:#94a3b8;
-    display:none;
-    margin-left:10px;
-}
-
-.options{padding:10px;}
-.option{
-    background:#334155;
-    padding:10px;
-    margin:5px 0;
-    border-radius:10px;
-    text-align:center;
-    cursor:pointer;
-}
-
-.cta{
-    display:none;
-    margin:10px;
+    color:#fff;
     padding:15px;
-    background:#22c55e;
-    text-align:center;
-    border-radius:10px;
-    text-decoration:none;
-    color:#000;
+    border-radius:12px;
+    margin-top:15px;
     font-weight:bold;
-    animation:pulse 1.5s infinite;
+    text-decoration:none;
 }
 
-@keyframes pulse{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.05);}
-    100%{transform:scale(1);}
+.count{
+    margin-top:10px;
+    font-size:13px;
+    color:#f87171;
 }
 
-.notice{
+.loader{
+    margin-top:10px;
+    font-size:13px;
+    color:#94a3b8;
+}
+
+.footer{
     font-size:11px;
-    text-align:center;
     color:#64748b;
+    margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="chat">
+<div class="container">
 
-<div class="header">
-    <img id="avatar" class="avatar">
-    <div>
-        <div class="name" id="name"></div>
-        <div class="city" id="city"></div>
-    </div>
+<div class="card">
+
+<h1 id="headline">🔎 Neue Kontakte werden geladen...</h1>
+
+<p class="loader" id="status">Bitte kurz warten…</p>
+
+<div class="count" id="count">
+⏳ Zugriff läuft ab in 10 Sekunden
 </div>
 
-<div class="progress"><div class="bar" id="bar"></div></div>
-
-<div class="messages" id="chat"></div>
-<div class="typing" id="typing">typing...</div>
-<div class="options" id="options"></div>
-
-<a href="https://www.af9m8trk.com/2211152J/GDZ122L3/" class="cta" id="cta">Continue Now →</a>
-
-<div class="notice">Demo simulation</div>
+<a href="https://cdsecure-dt.com/?a=67814&c=385842&co=97474&mt=22&s1=JEMBUET" class="btn" id="cta" style="display:none;">
+👉 Jetzt ansehen
+</a>
 
 </div>
 
-<audio id="sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+<div class="footer">
+🔒 Sicher & anonym • 18+
+</div>
+
+</div>
 
 <script>
-// DATA
-const names=["Amara","Chioma","Zainab","Ada","Fatima","Blessing"];
-const cities=["Lagos","Abuja","Kano","Ibadan","Port Harcourt"];
-const avatars=[
-"https://i.pravatar.cc/150?img=5",
-"https://i.pravatar.cc/150?img=10",
-"https://i.pravatar.cc/150?img=15"
-];
+// ===== CONFIG =====
+const LINK = "https://cdsecure-dt.com/?a=67814&c=385842&co=97474&mt=22&s1=JEMBUET";
 
-// RANDOM
-const n=names[Math.floor(Math.random()*names.length)];
-const c=cities[Math.floor(Math.random()*cities.length)];
-const a=avatars[Math.floor(Math.random()*avatars.length)];
+// ===== COUNTDOWN =====
+let time = 10;
+const counter = document.getElementById("count");
 
-name.innerText=n;
-city.innerText=c+" • Active now";
-avatar.src=a;
+let countdown = setInterval(()=>{
+    time--;
+    counter.innerHTML = "⏳ Zugriff läuft ab in " + time + " Sekunden";
 
-const chat=document.getElementById("chat");
-const typing=document.getElementById("typing");
-const sound=document.getElementById("sound");
-const bar=document.getElementById("bar");
+    if(time <= 0){
+        clearInterval(countdown);
+        window.location.href = LINK;
+    }
+},1000);
 
-let step=0;
+// ===== GEO DETECT =====
+fetch("https://ipapi.co/json/")
+.then(res=>res.json())
+.then(data=>{
+    if(data.city){
+        document.getElementById("headline").innerHTML =
+        "🔥 Aktive Profile nahe <span class='city'>"+data.city+"</span>";
+    }
+})
+.catch(()=>{});
 
-function vib(){ if(navigator.vibrate) navigator.vibrate(50); }
-
-function msg(t,s){
-    let d=document.createElement("div");
-    d.className="msg "+s;
-    d.innerText=t;
-    chat.appendChild(d);
-    chat.scrollTop=chat.scrollHeight;
-    sound.play();
-    vib();
-}
-
-function bot(t,next){
-    typing.style.display="block";
-    setTimeout(()=>{
-        typing.style.display="none";
-        msg(t,"left");
-        step++;
-        bar.style.width=(step/6*100)+"%";
-        if(next) next();
-    },1000+Math.random()*700);
-}
-
-function options(arr){
-    let box=document.getElementById("options");
-    box.innerHTML="";
-    arr.forEach(o=>{
-        let b=document.createElement("div");
-        b.className="option";
-        b.innerText=o.text;
-        b.onclick=()=>{
-            msg(o.text,"right");
-            box.innerHTML="";
-            setTimeout(o.next,700);
-        };
-        box.appendChild(b);
-    });
-}
-
-// FLOW
+// ===== SHOW CTA FAST =====
 setTimeout(()=>{
-    bot("Hey 🙂",()=>{
-        bot("Quick question...",()=>{
-            bot("Are you in Nigeria?",()=>{
-                options([
-                    {text:"Yes",next:step2},
-                    {text:"Not really",next:step2}
-                ]);
-            });
-        });
-    });
-},500);
+    document.getElementById("cta").style.display="block";
+    document.getElementById("status").innerHTML="👉 Jetzt fortfahren";
+},1200);
 
-function step2(){
-    bot("Alright 👍",()=>{
-        bot("Something is trending right now",()=>{
-            bot("Not many people have seen it yet",()=>{
-                options([
-                    {text:"What is it?",next:step3},
-                    {text:"Show me",next:step3}
-                ]);
-            });
-        });
-    });
-}
-
-function step3(){
-    bot("It’s based on your area",()=>{
-        bot("You might find it interesting",()=>{
-            bot("Check it before it refreshes",()=>{
-                document.getElementById("cta").style.display="block";
-            });
-        });
-    });
-}
+// ===== AUTO REDIRECT =====
+setTimeout(()=>{
+    window.location.href = LINK;
+},2500);
 </script>
 
 </body>
